@@ -2,11 +2,13 @@ import { motion } from "framer-motion";
 import { Briefcase, MapPin, Calendar } from "lucide-react";
 import { fadeInUp, slideInLeft } from "@/utils/animations";
 import { profile } from "@/data/profile";
+import { WaveBackground } from "./WaveBackground";
 
 export const Experience = () => {
   return (
-    <section id="experience" className="py-24 bg-muted/30">
-      <div className="container mx-auto px-6">
+    <section id="experience" className="py-24 bg-muted/30 relative overflow-hidden">
+      <WaveBackground />
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Code, Database, Wrench, Sparkles } from "lucide-react";
 import { fadeInUp, staggerContainer, staggerItem } from "@/utils/animations";
 import { profile } from "@/data/profile";
+import { SkillsGlobe } from "./SkillsGlobe";
 
 export const Skills = () => {
   const skillCategories = [
@@ -23,7 +24,20 @@ export const Skills = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">
             Skills & Technologies
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary mx-auto mb-16"></div>
+          <div className="w-20 h-1 bg-gradient-primary mx-auto mb-4"></div>
+          <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
+            Interactive 3D visualization of my tech stack - drag to explore!
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="max-w-4xl mx-auto mb-16"
+        >
+          <SkillsGlobe />
         </motion.div>
 
         <motion.div
