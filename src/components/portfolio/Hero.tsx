@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { profile } from "@/data/profile";
 import { staggerContainer, staggerItem } from "@/utils/animations";
 import heroBg from "@/assets/hero-bg.jpg";
+import { FloatingShapes } from "./FloatingShapes";
 
 export const Hero = () => {
   const scrollToContact = () => {
@@ -23,6 +24,7 @@ export const Hero = () => {
         backgroundPosition: 'center',
       }}
     >
+      <FloatingShapes />
       <div className="container mx-auto px-6 py-32 relative z-10">
         <motion.div
           variants={staggerContainer}

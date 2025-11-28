@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Code2, Rocket, Users } from "lucide-react";
 import { fadeInUp } from "@/utils/animations";
 import { profile } from "@/data/profile";
+import { AnimatedCube } from "./AnimatedCube";
 
 export const About = () => {
   const highlights = [
@@ -38,6 +39,16 @@ export const About = () => {
         </motion.div>
 
         <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mb-12"
+          >
+            <AnimatedCube />
+          </motion.div>
+
           <motion.p
             initial="hidden"
             whileInView="visible"
