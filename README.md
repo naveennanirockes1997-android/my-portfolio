@@ -1,73 +1,212 @@
-# Welcome to your Lovable project
+# LoveBul - Portfolio Website
 
-## Project info
+A modern, responsive portfolio website for Naveen Vasamsetti (Frontend & MERN Developer) built with React, TypeScript, Vite, Tailwind CSS, and Framer Motion.
 
-**URL**: https://lovable.dev/projects/f11aa9bf-79c8-47ce-8c67-225eb9852138
+## Features
 
-## How can I edit this code?
+- 🎨 Modern, clean UI with electric blue (#2962FF) accent color
+- 🌓 Dark mode support with smooth transitions
+- ✨ Smooth animations powered by Framer Motion
+- 📱 Fully responsive design (mobile, tablet, desktop)
+- ♿ Accessible with semantic HTML and ARIA labels
+- 🚀 Optimized performance with lazy loading
+- 🎯 SEO optimized with meta tags and Open Graph
+- 📧 Contact form with validation
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Framework**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **UI Components**: shadcn/ui
+- **Icons**: Lucide React
+- **Routing**: React Router
+- **Form Handling**: React Hook Form + Zod
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f11aa9bf-79c8-47ce-8c67-225eb9852138) and start prompting.
+## Project Structure
 
-Changes made via Lovable will be committed automatically to this repo.
+```
+src/
+├── components/
+│   ├── portfolio/         # Main portfolio components
+│   │   ├── Header.tsx
+│   │   ├── Hero.tsx
+│   │   ├── About.tsx
+│   │   ├── Projects.tsx
+│   │   ├── ProjectCard.tsx
+│   │   ├── ProjectModal.tsx
+│   │   ├── Experience.tsx
+│   │   ├── Skills.tsx
+│   │   ├── Certifications.tsx
+│   │   ├── ContactForm.tsx
+│   │   └── Footer.tsx
+│   └── ui/                # Reusable UI components
+├── data/
+│   └── profile.ts         # Portfolio content data
+├── hooks/
+│   └── useDarkMode.ts     # Dark mode hook
+├── utils/
+│   └── animations.ts      # Framer Motion variants
+├── assets/                # Images and static files
+└── pages/
+    └── Index.tsx          # Main page
+```
 
-**Use your preferred IDE**
+## Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js 18+ and npm
 
-Follow these steps:
+### Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. Clone the repository:
+```bash
+git clone <your-repo-url>
+cd lovebul-portfolio
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Install dependencies:
+```bash
+npm install
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Open [http://localhost:8080](http://localhost:8080) in your browser
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Build for Production
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+This generates optimized files in the `dist/` directory.
 
-## What technologies are used for this project?
+### Preview Production Build
 
-This project is built with:
+```bash
+npm run preview
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Deployment on Vercel
 
-## How can I deploy this project?
+### Quick Deploy
 
-Simply open [Lovable](https://lovable.dev/projects/f11aa9bf-79c8-47ce-8c67-225eb9852138) and click on Share -> Publish.
+1. Push your code to GitHub
+2. Import your repository on [Vercel](https://vercel.com)
+3. Vercel will auto-detect Vite and configure build settings
+4. Click "Deploy"
 
-## Can I connect a custom domain to my Lovable project?
+### Manual Deploy with Vercel CLI
 
-Yes, you can!
+```bash
+npm install -g vercel
+vercel login
+vercel
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Follow the prompts to deploy your site.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+### Environment Variables
+
+For the contact form to work with a serverless function, add these to Vercel:
+
+- `SENDGRID_API_KEY`: Your SendGrid API key
+- `CONTACT_EMAIL`: Email to receive contact form submissions
+
+## Contact Form Backend (Optional)
+
+The contact form is set up to work with Vercel serverless functions. Create `api/contact.js`:
+
+```javascript
+import sgMail from '@sendgrid/mail';
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
+  const { name, email, message } = req.body;
+
+  // Validate inputs
+  if (!name || !email || !message) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  try {
+    await sgMail.send({
+      to: process.env.CONTACT_EMAIL,
+      from: process.env.CONTACT_EMAIL,
+      subject: `Portfolio Contact: ${name}`,
+      text: `From: ${name} (${email})\n\n${message}`,
+      html: `<p><strong>From:</strong> ${name} (${email})</p><p>${message}</p>`,
+    });
+
+    res.status(200).json({ message: 'Email sent successfully' });
+  } catch (error) {
+    console.error('SendGrid Error:', error);
+    res.status(500).json({ message: 'Failed to send email' });
+  }
+}
+```
+
+Install SendGrid:
+```bash
+npm install @sendgrid/mail
+```
+
+## Customization
+
+### Update Content
+
+Edit `src/data/profile.ts` to update:
+- Personal information
+- Projects
+- Experience
+- Skills
+- Certifications
+
+### Modify Design
+
+- **Colors**: Edit CSS variables in `src/index.css`
+- **Animations**: Modify variants in `src/utils/animations.ts`
+- **Components**: Customize individual components in `src/components/portfolio/`
+
+### Add New Sections
+
+1. Create a new component in `src/components/portfolio/`
+2. Import and add it to `src/pages/Index.tsx`
+3. Add navigation link in `src/components/portfolio/Header.tsx`
+
+## Performance Optimization
+
+- ✅ Images optimized with WebP format
+- ✅ Code splitting with React.lazy
+- ✅ Tree shaking with Vite
+- ✅ CSS purging with Tailwind
+- ✅ Static site generation
+
+## Browser Support
+
+- Chrome (last 2 versions)
+- Firefox (last 2 versions)
+- Safari (last 2 versions)
+- Edge (last 2 versions)
+
+## License
+
+MIT License - feel free to use this template for your own portfolio!
+
+## Contact
+
+Naveen Vasamsetti
+- Email: naveen.vasamsetti@example.com
+- GitHub: [@naveenvasamsetti](https://github.com/naveenvasamsetti)
+- LinkedIn: [naveenvasamsetti](https://linkedin.com/in/naveenvasamsetti)
