@@ -27,9 +27,3 @@ dist-ssr
 .env
 .env.local
 .env.*.local
-
-# Databases
-*.db
-*.sqlite
-backend/dev.db
-backend/.env
