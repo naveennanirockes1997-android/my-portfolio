@@ -3,16 +3,7 @@ import { useState, useEffect } from "react";
 import { fadeInUp, staggerContainer, staggerItem } from "@/utils/animations";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
-import { Button } from "@/components/ui/button";
 import { Loader2, Search } from "lucide-react";
-import { 
-  Carousel, 
-  CarouselContent, 
-  CarouselItem, 
-  CarouselPrevious, 
-  CarouselNext 
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 
 export const Projects = () => {
   const [projects, setProjects] = useState<any[]>([]);
@@ -145,48 +136,25 @@ export const Projects = () => {
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
           </div>
         ) : (
-          <div className="max-w-[95rem] mx-auto relative group">
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              plugins={[
-                Autoplay({
-                  delay: 4000,
-                  stopOnInteraction: false,
-                }),
-              ]}
-              key={selectedTech + searchQuery} // Force re-render on filter to fix embla state
-              className="w-full"
-            >
-              <CarouselContent className="-ml-4 md:-ml-8">
+          <div className="max-w-[95rem] mx-auto">
+            {filteredProjects.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-12">
                 {filteredProjects.map((project) => (
-                  <CarouselItem key={project.id} className="pl-4 md:pl-8 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                    <motion.div
-                      layout
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <ProjectCard
-                        project={project}
-                        onClick={() => setSelectedProject(project)}
-                      />
-                    </motion.div>
-                  </CarouselItem>
+                  <motion.div
+                    key={project.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <ProjectCard
+                      project={project}
+                      onClick={() => setSelectedProject(project)}
+                    />
+                  </motion.div>
                 ))}
-              </CarouselContent>
-              
-              {filteredProjects.length > 0 && (
-                <div className="flex justify-center gap-6 mt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <CarouselPrevious className="static translate-y-0 h-14 w-14 glass rounded-2xl border-white/10 hover:bg-primary hover:text-white hover:scale-110 transition-all shadow-glow" />
-                  <CarouselNext className="static translate-y-0 h-14 w-14 glass rounded-2xl border-white/10 hover:bg-primary hover:text-white hover:scale-110 transition-all shadow-glow" />
-                </div>
-              )}
-            </Carousel>
-
-            {filteredProjects.length === 0 && (
+              </div>
+            ) : (
               <div className="text-center py-32">
                 <div className="text-6xl mb-6">🔍</div>
                 <p className="text-2xl font-bold text-foreground mb-4">No matching modules</p>

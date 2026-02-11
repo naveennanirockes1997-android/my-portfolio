@@ -10,7 +10,14 @@ const Index = lazy(() => import("./pages/Index"));
 const ResumeViewer = lazy(() => import("./pages/ResumeViewer"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 1,
+    },
+  },
+});
 
 const LoadingScreen = () => (
   <div className="min-h-screen flex items-center justify-center bg-background">
