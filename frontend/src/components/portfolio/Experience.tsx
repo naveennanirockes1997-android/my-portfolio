@@ -3,6 +3,7 @@ import { Briefcase, MapPin, Calendar, Building2 } from "lucide-react";
 import { fadeInUp, slideInLeft, staggerContainer } from "@/utils/animations";
 import { profile } from "@/data/profile";
 import { useState, useEffect } from "react";
+import { getApiUrl } from "@/utils/api";
 
 export const Experience = () => {
   const [experiences, setExperiences] = useState<any[]>([]);
@@ -10,7 +11,7 @@ export const Experience = () => {
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const response = await fetch('/api/experience');
+        const response = await fetch(getApiUrl('/api/experience'));
         if (response.ok) {
           const data = await response.json();
           setExperiences(data);

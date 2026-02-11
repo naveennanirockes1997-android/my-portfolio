@@ -4,7 +4,12 @@ import { motion } from 'framer-motion';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import { useAuth } from './hooks/useAuth';
+import axios from 'axios';
 import './index.css';
+
+// Configure global API URL for Render
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
+axios.defaults.withCredentials = true;
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();

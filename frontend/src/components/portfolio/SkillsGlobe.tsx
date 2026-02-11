@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text, Sphere, Line } from "@react-three/drei";
 import * as THREE from "three";
+import { getApiUrl } from "@/utils/api";
 
 interface SkillNodeProps {
   position: [number, number, number];
@@ -74,7 +75,7 @@ const RotatingGlobe = () => {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await fetch('/api/skills');
+        const response = await fetch(getApiUrl('/api/skills'));
         if (response.ok) {
           const data = await response.json();
           setSkills(data);

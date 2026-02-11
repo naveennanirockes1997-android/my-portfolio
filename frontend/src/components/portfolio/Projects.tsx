@@ -4,6 +4,7 @@ import { fadeInUp, staggerContainer, staggerItem } from "@/utils/animations";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectModal } from "./ProjectModal";
 import { Loader2, Search } from "lucide-react";
+import { getApiUrl } from "@/utils/api";
 
 export const Projects = () => {
   const [projects, setProjects] = useState<any[]>([]);
@@ -16,7 +17,7 @@ export const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('/api/projects');
+        const response = await fetch(getApiUrl('/api/projects'));
         if (response.ok) {
           const data = await response.json();
           // Transform backend model to frontend model
@@ -42,7 +43,7 @@ export const Projects = () => {
 
     const fetchSkills = async () => {
       try {
-        const response = await fetch('/api/skills');
+        const response = await fetch(getApiUrl('/api/skills'));
         if (response.ok) {
           const data = await response.json();
           setAllSkills(data.map((s: any) => s.name));

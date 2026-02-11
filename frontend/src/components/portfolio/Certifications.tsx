@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { fadeInUp, staggerContainer, staggerItem } from "@/utils/animations";
 import { profile } from "@/data/profile";
 import { useState, useEffect } from "react";
+import { getApiUrl } from "@/utils/api";
 
 export const Certifications = () => {
   const [certs, setCerts] = useState<any[]>([]);
@@ -11,7 +12,7 @@ export const Certifications = () => {
   useEffect(() => {
     const fetchCerts = async () => {
       try {
-        const response = await fetch('/api/certifications');
+        const response = await fetch(getApiUrl('/api/certifications'));
         if (response.ok) {
           const data = await response.json();
           setCerts(data);

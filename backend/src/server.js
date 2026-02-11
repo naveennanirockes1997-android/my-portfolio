@@ -1,17 +1,20 @@
 require('dotenv').config();
 const app = require('./app');
-const port = process.env.PORT || 3000;
-const mongoose = require("mongoose");
+const connectDB = require('./config/db');
+const port = process.env.PORT || 3001; // Render will provide PORT
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB connected");
+const startServer = async () => {
+  try {
+    // Ensure DB connection before listening
+    await connectDB();
+    
     app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
+      console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${port}`);
     });
-  })
-  .catch((err) => {
-    console.error("MongoDB error:", err.message);
+  } catch (err) {
+    console.error(`Error starting server: ${err.message}`);
     process.exit(1);
-  });
+  }
+};
+
+startServer();

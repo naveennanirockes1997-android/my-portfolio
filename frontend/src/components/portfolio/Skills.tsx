@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { fadeInUp, staggerContainer, staggerItem } from "@/utils/animations";
 import { profile } from "@/data/profile";
 import { SkillsGlobe } from "./SkillsGlobe";
+import { getApiUrl } from "@/utils/api";
 
 export const Skills = () => {
   const [skills, setSkills] = useState<{name: string, category: string}[]>([]);
@@ -11,7 +12,7 @@ export const Skills = () => {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await fetch('/api/skills');
+        const response = await fetch(getApiUrl('/api/skills'));
         if (response.ok) {
           const data = await response.json();
           setSkills(data);

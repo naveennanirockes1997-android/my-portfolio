@@ -10,7 +10,7 @@ my-portfolio/
 │   ├── src/              # Source code
 │   ├── public/           # Static assets
 │   └── package.json      # Frontend dependencies
-├── backend/              # Express.js + Prisma API
+├── backend/              # Express.js 
 │   ├── src/              # API controllers and routes
 │   ├── prisma/           # Database schema
 │   └── package.json      # Backend dependencies
