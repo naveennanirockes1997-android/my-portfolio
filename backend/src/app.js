@@ -13,12 +13,14 @@ app.use(
     origin: [
       frontendUrl,
       adminUrl,
+      'https://my-portfolio-admin-1q0a.onrender.com',
       'https://my-portfolio-1-y2gn.onrender.com',
-      'https://my-portfolio-sdw5.onrender.com',
       'http://localhost:8080',
       'http://localhost:5173',
+      'http://localhost:5174',
       'http://127.0.0.1:8080',
-      'http://127.0.0.1:5173'
+      'http://127.0.0.1:5173',
+      'http://127.0.0.1:5174'
     ],
     credentials: true,
   })
