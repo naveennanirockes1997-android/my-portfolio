@@ -58,11 +58,11 @@ export const Projects = () => {
   }, []);
 
   const allTechs = ["All", ...Array.from(new Set([
-    ...projects.flatMap(p => [...p.tech, ...p.skills]),
+    ...(Array.isArray(projects) ? projects.flatMap(p => [...(p.tech || []), ...(p.skills || [])]) : []),
     ...allSkills
   ]))];
 
-  const filteredProjects = projects.filter(project => {
+  const filteredProjects = Array.isArray(projects) ? projects.filter(project => {
     const matchesSearch = project.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           project.skills.some((s: string) => s.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -72,7 +72,7 @@ export const Projects = () => {
                         project.skills.includes(selectedTech);
                         
     return matchesSearch && matchesTech;
-  });
+  }) : [];
 
   return (
     <section id="projects" className="py-32 relative overflow-hidden bg-background">

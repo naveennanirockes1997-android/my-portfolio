@@ -25,7 +25,7 @@ export const Skills = () => {
   }, []);
 
   const getSkillsByCategory = (category: string) => {
-    const dynamicSkills = skills.filter(s => s.category === category).map(s => s.name);
+    const dynamicSkills = Array.isArray(skills) ? skills.filter(s => s.category === category).map(s => s.name) : [];
     // Combine with static profile data if dynamic is empty, or show both
     if (dynamicSkills.length > 0) return dynamicSkills;
     

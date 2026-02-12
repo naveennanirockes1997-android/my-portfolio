@@ -460,8 +460,8 @@ const Dashboard = () => {
               {[
                 { label: 'Outreach Matrix', value: '1,280', icon: Activity, trend: '+12%', color: 'text-primary' },
                 { label: 'Engine Load', value: '14.2%', icon: Cpu, trend: 'Optimal', color: 'text-indigo-400' },
-                { label: 'Registry Size', value: projects.length.toString().padStart(2, '0'), icon: FolderOpen, trend: 'Updated', color: 'text-emerald-400' },
-                { label: 'Active Links', value: projects.filter(p => p.link).length.toString().padStart(2, '0'), icon: Globe, trend: 'Connected', color: 'text-amber-400' },
+                { label: 'Registry Size', value: (Array.isArray(projects) ? projects.length : 0).toString().padStart(2, '0'), icon: FolderOpen, trend: 'Updated', color: 'text-emerald-400' },
+                { label: 'Active Links', value: (Array.isArray(projects) ? projects.filter(p => p.link).length : 0).toString().padStart(2, '0'), icon: Globe, trend: 'Connected', color: 'text-amber-400' },
               ].map((stat, i) => (
                 <motion.div 
                   key={stat.label}
@@ -618,7 +618,7 @@ const Dashboard = () => {
                         {cat} Sector
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                        {skills.filter(s => s.category === cat).map(skill => (
+                        {Array.isArray(skills) && skills.filter(s => s.category === cat).map(skill => (
                           <div 
                             key={skill._id} 
                             className="group flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/5 hover:border-primary/30 transition-all"
@@ -633,7 +633,7 @@ const Dashboard = () => {
                             </button>
                           </div>
                         ))}
-                        {skills.filter(s => s.category === cat).length === 0 && (
+                        {(!Array.isArray(skills) || skills.filter(s => s.category === cat).length === 0) && (
                           <span className="text-[10px] uppercase font-black text-muted-foreground/20 italic p-2">Empty Sector</span>
                         )}
                       </div>
