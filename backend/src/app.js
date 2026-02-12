@@ -3,6 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const app = express();
+app.set('trust proxy', 1); // Trust Render proxy for secure cookies
 
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
 const adminUrl = process.env.ADMIN_URL || 'http://localhost:5173';
