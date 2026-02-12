@@ -3,9 +3,9 @@ const Skill = require("./models/Skill");
 const Experience = require("./models/Experience");
 const Certification = require("./models/Certification");
 const Admin = require("./models/Admin");
+const mongoose = require("mongoose");
 
 require('dotenv').config();
-const connectDB = require("./config/db");
 
 const projects = [
   {
@@ -171,7 +171,7 @@ const certifications = [
 
 const seedData = async () => {
   try {
-    await connectDB();
+    await mongoose.connect(process.env.MONGO_URI);
 
     await Project.deleteMany();
     await Project.insertMany(projects);
