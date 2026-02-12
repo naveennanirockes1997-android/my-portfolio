@@ -287,7 +287,7 @@ const Dashboard = () => {
                   </tr>
                 ) : (
                   <AnimatePresence mode="popLayout">
-                    {projects.map((p, idx) => (
+                    {Array.isArray(projects) && projects.map((p, idx) => (
                       <motion.tr 
                         key={p._id}
                         initial={{ opacity: 0, y: 10 }}
@@ -309,7 +309,7 @@ const Dashboard = () => {
                         </td>
                         <td className="p-6">
                            <div className="flex flex-wrap gap-1.5">
-                              {p.tags?.slice(0, 3).map((t: string) => (
+                              {Array.isArray(p.tags) && p.tags.slice(0, 3).map((t: string) => (
                                 <span key={t} className="text-[8px] font-black text-primary/60 px-2 py-0.5 bg-primary/5 rounded-full border border-primary/10 uppercase tracking-tighter">#{t}</span>
                               ))}
                            </div>
@@ -669,7 +669,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="lg:col-span-8 space-y-4">
-                {experiences.map(exp => (
+                {Array.isArray(experiences) && experiences.map(exp => (
                   <div key={exp._id} className="glass p-6 rounded-[2rem] group flex justify-between items-start">
                     <div>
                       <div className="text-xs font-black uppercase tracking-widest text-primary mb-1">{exp.duration}</div>
@@ -709,7 +709,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="lg:col-span-8 grid md:grid-cols-2 gap-4">
-                {certifications.map(cert => (
+                {Array.isArray(certifications) && certifications.map(cert => (
                   <div key={cert._id} className="glass p-6 rounded-[2rem] group flex justify-between items-start">
                     <div>
                       <h4 className="font-black leading-tight mb-1">{cert.title}</h4>
