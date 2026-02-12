@@ -8,6 +8,10 @@
     "dev:backend": "cd backend && npm run dev",
     "dev:admin": "cd admin && npm run dev",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\" \"npm run dev:admin\"",
+    "build:frontend": "cd frontend && npm install && npm run build",
+    "build:admin": "cd admin && npm install && npm run build",
+    "build:backend": "cd backend && npm install",
+    "build": "npm run build:frontend",
     "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../admin && npm install",
     "clean": "Powershell -Command \"Remove-Item -Path 'frontend/node_modules/.vite*' -Recurse -Force -ErrorAction SilentlyContinue\""
   },
