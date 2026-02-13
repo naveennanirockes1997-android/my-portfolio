@@ -34,4 +34,8 @@ const projectSchema = mongoose.Schema({
   timestamps: true,
 });
 
+projectSchema.index({ createdAt: -1 });
+projectSchema.index({ tags: 1 });
+projectSchema.index({ title: 'text', description: 'text' }); // Text index for search
+
 module.exports = mongoose.model('Project', projectSchema);

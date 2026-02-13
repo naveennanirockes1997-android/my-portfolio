@@ -17,4 +17,6 @@ const skillSchema = mongoose.Schema({
   timestamps: true,
 });
 
+skillSchema.index({ category: 1, name: 1 });
+
 module.exports = mongoose.model('Skill', skillSchema);

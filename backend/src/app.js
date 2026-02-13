@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const app = express();
+app.use(compression());
 app.set('trust proxy', 1); // Trust Render proxy for secure cookies
 
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:8080';
@@ -28,6 +30,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static('uploads'));
 
 // Root health check
 app.get('/health', (req, res) => res.json({ status: 'healthy', timestamp: new Date() }));
@@ -37,12 +40,14 @@ const authRoutes = require('./routes/auth');
 const skillRoutes = require('./routes/skills');
 const experienceRoutes = require('./routes/experience');
 const certificationRoutes = require('./routes/certifications');
+const profileRoutes = require('./routes/profile');
 
 app.use('/api/projects', projectRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/skills', skillRoutes);
 app.use('/api/experience', experienceRoutes);
 app.use('/api/certifications', certificationRoutes);
+app.use('/api/profile', profileRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

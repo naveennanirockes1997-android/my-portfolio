@@ -8,7 +8,9 @@ const { protect } = require('../middleware/auth');
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const skills = await Skill.find().sort({ category: 1, name: 1 });
+    const skills = await Skill.find()
+      .select('-__v')
+      .sort({ category: 1, name: 1 });
     res.json(skills);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -12,7 +12,7 @@ const projects = [
     title: "Zenify - Wellness & Mindfulness Suite",
     description:
       "A serene wellness application offering ambient soundscapes, guided meditations, and personalized habit tracking. Designed for mental clarity and peace.",
-    image: "/projects/zenify.png",
+    image: "/projects/zenify.webp",
     tech: ["React Native", "Framer Motion", "Supabase", "React Context"],
     link: "https://zenify-wellness.vercel.app",
     github: "https://github.com/naveenvasamsetti/zenify",
@@ -27,7 +27,7 @@ const projects = [
     title: "Nexus AI - SaaS Generation Platform",
     description:
       "Advanced AI-powered platform for content creation, image manipulation, and data analysis using GPT-4 and Stable Diffusion.",
-    image: "/projects/nexus-ai.png",
+    image: "/projects/nexus-ai.webp",
     tech: ["Next.js", "TypeScript", "OpenAI", "Tailwind CSS", "Prisma"],
     link: "https://nexus-ai-demo.vercel.app",
     github: "https://github.com/naveenvasamsetti/nexus-ai",
@@ -42,7 +42,7 @@ const projects = [
     title: "CryptoPulse - Real-time Finance Dashboard",
     description:
       "A professional cryptocurrency tracking dashboard with live market data, advanced charting, and portfolio management.",
-    image: "/projects/cryptopulse.png",
+    image: "/projects/cryptopulse.webp",
     tech: ["React", "D3.js", "WebSockets", "Firebase", "Node.js"],
     link: "https://cryptopulse-finance.vercel.app",
     github: "https://github.com/naveenvasamsetti/cryptopulse",
@@ -57,7 +57,7 @@ const projects = [
     title: "EstatePro - Luxury Real Estate Marketplace",
     description:
       "A premium property listing platform featuring virtual tours, interactive maps, and a sophisticated lead management system.",
-    image: "/projects/estatepro.png",
+    image: "/projects/estatepro.webp",
     tech: ["React", "Google Maps API", "Cloudinary", "Express", "MongoDB"],
     link: "https://estatepro-luxury.vercel.app",
     github: "https://github.com/naveenvasamsetti/estatepro",
@@ -72,7 +72,7 @@ const projects = [
     title: "LearnFlow - Interactive LMS Platform",
     description:
       "A comprehensive learning management system with course creative tools, video streaming, and detailed student analytics.",
-    image: "/projects/learnflow.png",
+    image: "/projects/learnflow.webp",
     tech: ["React", "Mux Video", "Redux Toolkit", "PostgreSQL", "Socket.io"],
     link: "https://learnflow-edu.vercel.app",
     github: "https://github.com/naveenvasamsetti/learnflow",
@@ -87,7 +87,7 @@ const projects = [
     title: "ShopHub - E-commerce Platform",
     description:
       "Full-featured e-commerce platform with cart, checkout, and payment integration",
-    image: "/projects/nexus-ai.png",
+    image: "/projects/nexus-ai.webp",
     tech: ["React", "Node.js", "MongoDB", "Stripe", "Redux"],
     link: "https://shophub-demo.vercel.app",
     github: "https://github.com/naveenvasamsetti/shophub",
@@ -102,7 +102,7 @@ const projects = [
     title: "SocialConnect - Social Media Dashboard",
     description:
       "Analytics dashboard for managing multiple social media accounts with engagement metrics",
-    image: "/projects/cryptopulse.png",
+    image: "/projects/cryptopulse.webp",
     tech: ["React", "TypeScript", "Chart.js", "Tailwind CSS"],
     link: "https://linktr.ee/naveenvasamsetti",
     github: "https://github.com/naveenvasamsetti/socialconnect",
@@ -117,7 +117,7 @@ const projects = [
     title: "TaskFlow - Project Management",
     description:
       "Collaborative task management tool with drag-and-drop kanban boards",
-    image: "/projects/estatepro.png",
+    image: "/projects/estatepro.webp",
     tech: ["React", "Express", "PostgreSQL", "Socket.io", "Framer Motion"],
     link: "https://taskflow-demo.vercel.app",
     github: "https://github.com/naveenvasamsetti/taskflow",

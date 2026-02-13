@@ -20,7 +20,10 @@ import {
   BarChart3,
   Wrench,
   Briefcase,
-  Award
+  Award,
+  FileText,
+  Upload,
+  Rocket
 } from 'lucide-react';
 import axios from 'axios';
 
@@ -36,6 +39,9 @@ const Dashboard = () => {
   const [skillForm, setSkillForm] = useState({ name: '', category: 'Frontend' as 'Frontend' | 'Backend' | 'Tools' | 'Other' });
   const [expForm, setExpForm] = useState({ company: '', position: '', duration: '', description: '', highlights: '' });
   const [certForm, setCertForm] = useState({ title: '', issuer: '', date: '', link: '', image: '' });
+  const [profile, setProfile] = useState<any>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   
   // Form State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,11 +96,21 @@ const Dashboard = () => {
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+      const res = await axios.get('/api/profile');
+      setProfile(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     fetchProjects();
     fetchSkills();
     fetchExperiences();
     fetchCertifications();
+    fetchProfile();
   }, []);
 
   const handleLogout = async () => {
@@ -173,6 +189,7 @@ const Dashboard = () => {
     { icon: Wrench, label: 'Skills' },
     { icon: Briefcase, label: 'Experience' },
     { icon: Award, label: 'Certifications' },
+    { icon: FileText, label: 'Resume' },
     { icon: BarChart3, label: 'Analytics' },
     { icon: Globe, label: 'Domain' },
     { icon: Settings, label: 'System' },
@@ -247,6 +264,32 @@ const Dashboard = () => {
     }
   };
 
+  const handleUpdateResume = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedFile) {
+      alert('Please select a PDF file first');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('resume', selectedFile);
+
+    try {
+      setIsUploading(true);
+      await axios.post('/api/profile/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true
+      });
+      fetchProfile();
+      setSelectedFile(null);
+      alert('Resume synchronized successfully');
+    } catch (err: any) {
+      alert('Upload failed: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const ProjectRegistry = () => (
     <section>
       <div className="flex items-center justify-between mb-8 px-2">
@@ -299,7 +342,7 @@ const Dashboard = () => {
                         <td className="p-6">
                            <div className="flex items-center gap-4">
                               <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 overflow-hidden ring-1 ring-white/5 group-hover/row:ring-primary/20 transition-all">
-                                 <img src={p.image || "/placeholder.svg"} className="w-full h-full object-cover opacity-40 group-hover/row:opacity-100 group-hover/row:scale-110 transition-all duration-500" alt="" />
+                                 <img src={p.image || "/placeholder.svg"} loading="eager" className="w-full h-full object-cover opacity-40 group-hover/row:opacity-100 group-hover/row:scale-110 transition-all duration-500" alt="" />
                               </div>
                               <div>
                                  <div className="font-bold text-sm leading-none mb-1 group-hover/row:text-primary transition-colors uppercase tracking-tight">{p.title}</div>
@@ -720,6 +763,122 @@ const Dashboard = () => {
                     </button>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeSection === 'Resume' && (
+          <div className="space-y-8">
+            <header>
+              <h1 className="text-4xl font-black tracking-tighter uppercase italic">Resume <span className="text-primary NOT-italic">Protocol</span></h1>
+              <p className="text-muted-foreground/60 text-sm mt-2 font-medium tracking-widest uppercase">Manage binary asset paths for specialized credentials</p>
+            </header>
+
+            <div className="grid lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-12 xl:col-span-5">
+                <div className="glass p-8 rounded-[2rem] sticky top-8">
+                  <h3 className="text-lg font-black uppercase tracking-widest mb-6 flex items-center gap-2">
+                    <FileText size={18} className="text-primary" />
+                    Upload Module
+                  </h3>
+                  <form onSubmit={handleUpdateResume} className="space-y-6">
+                    <div className="space-y-4">
+                      <div 
+                        className={`relative border-2 border-dashed rounded-[2rem] p-12 transition-all group flex flex-col items-center justify-center text-center ${
+                          selectedFile ? 'border-primary bg-primary/5' : 'border-white/10 hover:border-primary/30'
+                        }`}
+                      >
+                        <input 
+                          type="file"
+                          accept=".pdf"
+                          onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                          className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                        />
+                        <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                          <Upload size={32} className={selectedFile ? 'text-primary' : 'text-muted-foreground/40'} />
+                        </div>
+                        {selectedFile ? (
+                          <>
+                            <p className="text-sm font-bold text-primary truncate max-w-full px-4">{selectedFile.name}</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40 mt-1">Ready for deployment</p>
+                          </>
+                        ) : (
+                          <>
+                            <p className="text-sm font-bold uppercase tracking-tight">Drop Resume PDF</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40 mt-1">Maximum Size: 10MB</p>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-primary/5 rounded-xl border border-primary/10">
+                      <div className="flex items-start gap-3">
+                        <Activity size={16} className="text-primary mt-0.5" />
+                        <div>
+                          <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/40 mb-1">Active Registry Path</p>
+                          <p className="text-[10px] font-bold leading-relaxed text-primary break-all">
+                            {profile?.resumeUrl || 'Default Internal Registry'}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button 
+                      type="submit" 
+                      disabled={!selectedFile || isUploading}
+                      className={`w-full h-14 rounded-xl font-black uppercase tracking-[0.3em] text-[10px] shadow-glow transition-all flex items-center justify-center gap-3 ${
+                        !selectedFile || isUploading 
+                        ? 'bg-white/5 text-muted-foreground/20 cursor-not-allowed' 
+                        : 'primary-gradient text-white hover:scale-[1.02] active:scale-[0.98]'
+                      }`}
+                    >
+                      {isUploading ? (
+                        <>
+                          <Activity size={16} className="animate-spin" />
+                          Synchronizing...
+                        </>
+                      ) : (
+                        <>
+                          <Rocket size={16} />
+                          Execute Injection
+                        </>
+                      )}
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <div className="lg:col-span-12 xl:col-span-7">
+                <div className="glass p-8 rounded-[2rem] h-full flex flex-col items-center justify-center text-center min-h-[400px]">
+                  {profile?.resumeUrl ? (
+                    <div className="w-full h-full flex flex-col items-center">
+                       <div className="w-full flex-1 bg-white/5 rounded-2xl overflow-hidden mb-6 flex items-center justify-center">
+                          <FileText size={80} className="text-primary/20" />
+                       </div>
+                       <h3 className="text-xl font-black uppercase tracking-tighter italic">Preview Node <span className="text-primary">Status</span></h3>
+                       <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40 mt-2 max-w-xs mx-auto">
+                         The encrypted binary is currently hosted and accessible at the network endpoint.
+                       </p>
+                       <button 
+                        onClick={() => window.open(profile.resumeUrl.startsWith('http') ? profile.resumeUrl : `${axios.defaults.baseURL || ''}${profile.resumeUrl}`, '_blank')}
+                        className="mt-6 px-10 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest transition-all text-primary"
+                      >
+                        Verify Live Deployment
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
+                         <Globe size={32} className="text-muted-foreground" />
+                      </div>
+                      <h3 className="text-xl font-black uppercase tracking-tighter">System Idle</h3>
+                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40 mt-2 max-w-xs mx-auto">
+                        No custom resume detected in the registry. 
+                      </p>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>

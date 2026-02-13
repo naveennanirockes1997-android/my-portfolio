@@ -42,6 +42,7 @@ export const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             <img
               src={project.image}
               alt={project.name}
+              loading="eager"
               className="w-full h-full object-cover"
             />
             <Button

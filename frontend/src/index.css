@@ -123,13 +123,23 @@
 
   body {
     @apply bg-background text-foreground antialiased overflow-x-hidden;
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     font-feature-settings: "cv02", "cv05", "cv11";
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Urbanist', sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Urbanist", sans-serif;
     @apply font-bold tracking-tight;
+  }
+
+  section {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
   }
 }
 

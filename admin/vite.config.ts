@@ -12,8 +12,30 @@ export default defineConfig({
     port: 5174,
     proxy: {
       '/api': {
-        target: 'https://my-portfolio-backend-ba4y.onrender.com',
+        target: 'http://localhost:3000',
         changeOrigin: true,
+      },
+      '/uploads': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      }
+    }
+  },
+  build: {
+    target: 'esnext',
+    minify: 'terser',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['react', 'react-dom', 'react-router-dom', 'axios'],
+          'framer': ['framer-motion'],
+        }
+      }
+    },
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
       }
     }
   }
