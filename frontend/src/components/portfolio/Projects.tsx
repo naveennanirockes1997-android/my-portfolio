@@ -11,8 +11,6 @@ export const Projects = () => {
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<any | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTech, setSelectedTech] = useState<string>("All");
-  const [allSkills, setAllSkills] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -41,37 +39,22 @@ export const Projects = () => {
       }
     };
 
-    const fetchSkills = async () => {
-      try {
-        const response = await fetch(getApiUrl('/api/skills'));
-        if (response.ok) {
-          const data = await response.json();
-          setAllSkills(data.map((s: any) => s.name));
-        }
-      } catch (error) {
-        console.error("Failed to fetch skills:", error);
-      }
-    };
-
     fetchProjects();
-    fetchSkills();
   }, []);
 
-  const allTechs = ["All", ...Array.from(new Set([
-    ...(Array.isArray(projects) ? projects.flatMap(p => [...(p.tech || []), ...(p.skills || [])]) : []),
-    ...allSkills
-  ]))];
+
 
   const filteredProjects = Array.isArray(projects) ? projects.filter(project => {
-    const matchesSearch = project.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          project.skills.some((s: string) => s.toLowerCase().includes(searchQuery.toLowerCase()));
+    const query = searchQuery.toLowerCase().trim();
     
-    const matchesTech = selectedTech === "All" || 
-                        project.tech.includes(selectedTech) || 
-                        project.skills.includes(selectedTech);
+    // Check if project matches search query (name, description, tech, or skills)
+    const matchesSearch = 
+      (project.name?.toLowerCase() || "").includes(query) || 
+      (project.description?.toLowerCase() || "").includes(query) ||
+      (project.tech || []).some((t: string) => t?.toLowerCase().includes(query)) ||
+      (project.skills || []).some((s: string) => s?.toLowerCase().includes(query));
                         
-    return matchesSearch && matchesTech;
+    return matchesSearch;
   }) : [];
 
   return (
@@ -93,17 +76,17 @@ export const Projects = () => {
           </h2>
           <div className="w-24 h-2 bg-gradient-primary mx-auto rounded-full mb-8"></div>
           <p className="text-center text-muted-foreground max-w-2xl mx-auto text-lg font-medium">
-            Search through my technical builds or filter by specific <span className="text-foreground">Skills</span> to explore the registry.
+            Search through my technical builds and explore the registry.
           </p>
         </motion.div>
 
-        {/* Search & Skills List Filter */}
-        <div className="max-w-4xl mx-auto mb-20 space-y-8">
+        <div className="max-w-4xl mx-auto mb-20">
           <div className="relative group">
             <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-3xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
             <div className="relative flex items-center">
-              <Search className="absolute left-6 text-muted-foreground/50 group-focus-within:text-primary transition-colors" size={24} />
+              <Search className="absolute left-6 text-muted-foreground/50 group-focus-within:text-primary transition-colors pointer-events-none" size={24} />
               <input 
+                id="project-search"
                 type="text"
                 placeholder="Search projects, skills or tech stack..."
                 value={searchQuery}
@@ -111,24 +94,6 @@ export const Projects = () => {
                 className="w-full bg-white/5 border border-white/10 rounded-[2rem] py-6 pl-16 pr-8 text-xl outline-none focus:border-primary/50 backdrop-blur-md transition-all placeholder:text-muted-foreground/30 font-medium"
               />
             </div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-3">
-            {allTechs.map((tech) => (
-              <motion.button
-                key={tech}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setSelectedTech(tech)}
-                className={`px-6 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
-                  selectedTech === tech 
-                  ? "bg-primary text-white shadow-glow" 
-                  : "bg-white/5 text-muted-foreground/60 hover:bg-white/10 hover:text-primary border border-white/5"
-                }`}
-              >
-                {tech}
-              </motion.button>
-            ))}
           </div>
         </div>
 
@@ -161,10 +126,10 @@ export const Projects = () => {
                 <p className="text-2xl font-bold text-foreground mb-4">No matching modules</p>
                 <p className="text-muted-foreground">Adjust your search or filter criteria to find specific registry entries.</p>
                 <button 
-                  onClick={() => {setSearchQuery(""); setSelectedTech("All");}}
+                  onClick={() => setSearchQuery("")}
                   className="mt-8 text-primary font-bold hover:underline"
                 >
-                  Reset Parameters
+                  Clear Search
                 </button>
               </div>
             )}

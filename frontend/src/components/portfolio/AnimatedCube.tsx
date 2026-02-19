@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { RoundedBox, MeshDistortMaterial } from "@react-three/drei";
+import { useInView } from "framer-motion";
 import * as THREE from "three";
 
 const RotatingCube = () => {
@@ -27,15 +28,32 @@ const RotatingCube = () => {
 };
 
 export const AnimatedCube = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { margin: "100px" });
+
   return (
-    <div className="w-full h-64 rounded-xl overflow-hidden">
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[5, 5, 5]} intensity={1} />
-        <pointLight position={[-5, -5, -5]} color="#00D9FF" intensity={0.5} />
-        
-        <RotatingCube />
-      </Canvas>
+    <div ref={containerRef} className="w-full h-64 rounded-xl overflow-hidden">
+      {isInView && (
+        <Canvas 
+          camera={{ position: [0, 0, 5], fov: 50 }}
+          dpr={1}
+          eventPrefix="client"
+          gl={{ 
+            antialias: false, 
+            alpha: true, 
+            powerPreference: "low-power",
+            failIfMajorPerformanceCaveat: false,
+            stencil: false,
+            depth: true
+          }}
+        >
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[5, 5, 5]} intensity={1} />
+          <pointLight position={[-5, -5, -5]} color="#00D9FF" intensity={0.5} />
+          
+          <RotatingCube />
+        </Canvas>
+      )}
     </div>
   );
 };

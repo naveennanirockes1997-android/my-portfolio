@@ -1,6 +1,7 @@
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, MeshDistortMaterial } from "@react-three/drei";
+import { useInView } from "framer-motion";
 import * as THREE from "three";
 
 const AnimatedShape = ({ position, color, shape }: { position: [number, number, number]; color: string; shape: "sphere" | "box" | "torus" }) => {
@@ -72,19 +73,36 @@ const ParticleField = () => {
 };
 
 export const FloatingShapes = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { margin: "100px" });
+
   return (
-    <div className="absolute inset-0 opacity-40">
-      <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 5]} intensity={1} />
-        <pointLight position={[-10, -10, -5]} intensity={0.5} color="#8B5CF6" />
-        
-        <AnimatedShape position={[-3, 2, 0]} color="#8B5CF6" shape="sphere" />
-        <AnimatedShape position={[3, -2, -2]} color="#6366F1" shape="box" />
-        <AnimatedShape position={[0, 0, -3]} color="#EC4899" shape="torus" />
-        
-        <ParticleField />
-      </Canvas>
+    <div ref={containerRef} className="absolute inset-0 opacity-40">
+      {isInView && (
+        <Canvas 
+          camera={{ position: [0, 0, 8], fov: 50 }}
+          dpr={1}
+          eventPrefix="client"
+          gl={{ 
+            antialias: false, 
+            alpha: true, 
+            powerPreference: "low-power",
+            failIfMajorPerformanceCaveat: false,
+            stencil: false,
+            depth: true
+          }}
+        >
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 5]} intensity={1} />
+          <pointLight position={[-10, -10, -5]} intensity={0.5} color="#8B5CF6" />
+          
+          <AnimatedShape position={[-3, 2, 0]} color="#8B5CF6" shape="sphere" />
+          <AnimatedShape position={[3, -2, -2]} color="#6366F1" shape="box" />
+          <AnimatedShape position={[0, 0, -3]} color="#EC4899" shape="torus" />
+          
+          <ParticleField />
+        </Canvas>
+      )}
     </div>
   );
 };

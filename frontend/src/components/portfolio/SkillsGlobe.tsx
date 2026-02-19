@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text, Sphere, Line } from "@react-three/drei";
+import { useInView } from "framer-motion";
 import * as THREE from "three";
 import { getApiUrl } from "@/utils/api";
 
@@ -148,22 +149,39 @@ const RotatingGlobe = () => {
 };
 
 export const SkillsGlobe = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { margin: "100px" });
+
   return (
-    <div className="w-full h-[500px] rounded-xl overflow-hidden bg-card/50">
-      <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 5]} intensity={1} />
-        <pointLight position={[-10, -10, -5]} color="#8B5CF6" intensity={0.8} />
-        
-        <RotatingGlobe />
-        
-        <OrbitControls 
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.5}
-        />
-      </Canvas>
+    <div ref={containerRef} className="w-full h-[500px] rounded-xl overflow-hidden bg-card/50">
+      {isInView && (
+        <Canvas 
+          camera={{ position: [0, 0, 6], fov: 50 }}
+          dpr={1}
+          eventPrefix="client"
+          gl={{ 
+            antialias: false, 
+            alpha: true, 
+            powerPreference: "low-power",
+            failIfMajorPerformanceCaveat: false,
+            stencil: false,
+            depth: true
+          }}
+        >
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 5]} intensity={1} />
+          <pointLight position={[-10, -10, -5]} color="#8B5CF6" intensity={0.8} />
+          
+          <RotatingGlobe />
+          
+          <OrbitControls 
+            enableZoom={false}
+            enablePan={false}
+            autoRotate
+            autoRotateSpeed={0.5}
+          />
+        </Canvas>
+      )}
     </div>
   );
 };
