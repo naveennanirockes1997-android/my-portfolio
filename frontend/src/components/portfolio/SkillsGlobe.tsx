@@ -30,6 +30,7 @@ const SkillNode = ({ position, skill, color }: SkillNodeProps) => {
         color="white"
         anchorX="center"
         anchorY="middle"
+        font="https://cdn.jsdelivr.net/fontsource/fonts/outfit@latest/latin-400-normal.woff"
       >
         {skill}
       </Text>
