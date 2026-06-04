@@ -195,9 +195,10 @@ const seedData = async () => {
     await Admin.deleteMany();
     await Admin.create({
       username: "admin",
+      email: process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "admin@example.com",
       password: "password123",
     });
-    console.log("Admin user created (admin / password123)");
+    console.log(`Admin user created (admin / ${process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "admin@example.com"} / password123)`);
 
     process.exit();
   } catch (error) {
@@ -206,4 +207,8 @@ const seedData = async () => {
   }
 };
 
-seedData();
+if (require.main === module) {
+  seedData();
+} else {
+  module.exports = { projects, skills, experiences, certifications };
+}

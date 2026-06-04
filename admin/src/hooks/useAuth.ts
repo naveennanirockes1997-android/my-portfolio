@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 
 const API_URL = '/api/auth';
 
@@ -13,7 +13,7 @@ export const useAuth = () => {
 
   const checkAuth = async () => {
     try {
-      const res = await axios.get(`${API_URL}/me`, { withCredentials: true });
+      const res = await api.get(`${API_URL}/me`);
       setUser(res.data);
     } catch (err) {
       setUser(null);
@@ -23,15 +23,25 @@ export const useAuth = () => {
   };
 
   const login = async (username: string, password: string) => {
-    const res = await axios.post(`${API_URL}/login`, { username, password }, { withCredentials: true });
+    const res = await api.post(`${API_URL}/login`, { username, password });
     setUser(res.data);
     return res.data;
   };
 
   const logout = async () => {
-    await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
+    await api.post(`${API_URL}/logout`, {});
     setUser(null);
   };
 
-  return { user, loading, login, logout };
+  const forgotPassword = async (email: string) => {
+    const res = await api.post(`${API_URL}/forgot-password`, { email });
+    return res.data;
+  };
+
+  const resetPassword = async (email: string, otp: string, newPassword: any) => {
+    const res = await api.post(`${API_URL}/reset-password`, { email, otp, newPassword });
+    return res.data;
+  };
+
+  return { user, loading, login, logout, forgotPassword, resetPassword };
 };
