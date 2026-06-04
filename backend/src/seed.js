@@ -1,3 +1,6 @@
+const dns = require('dns');
+dns.setServers(['1.1.1.1', '8.8.8.8']);
+
 const Project = require("./models/Project");
 const Skill = require("./models/Skill");
 const Experience = require("./models/Experience");

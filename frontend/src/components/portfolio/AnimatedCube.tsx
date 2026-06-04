@@ -33,27 +33,26 @@ export const AnimatedCube = () => {
 
   return (
     <div ref={containerRef} className="w-full h-64 rounded-xl overflow-hidden">
-      {isInView && (
-        <Canvas 
-          camera={{ position: [0, 0, 5], fov: 50 }}
-          dpr={1}
-          eventPrefix="client"
-          gl={{ 
-            antialias: false, 
-            alpha: true, 
-            powerPreference: "low-power",
-            failIfMajorPerformanceCaveat: false,
-            stencil: false,
-            depth: true
-          }}
-        >
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[5, 5, 5]} intensity={1} />
-          <pointLight position={[-5, -5, -5]} color="#00D9FF" intensity={0.5} />
-          
-          <RotatingCube />
-        </Canvas>
-      )}
+      <Canvas 
+        camera={{ position: [0, 0, 5], fov: 50 }}
+        dpr={1}
+        eventPrefix="client"
+        frameloop={isInView ? "always" : "never"}
+        gl={{ 
+          antialias: false, 
+          alpha: true, 
+          powerPreference: "low-power",
+          failIfMajorPerformanceCaveat: false,
+          stencil: false,
+          depth: true
+        }}
+      >
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
+        <pointLight position={[-5, -5, -5]} color="#00D9FF" intensity={0.5} />
+        
+        <RotatingCube />
+      </Canvas>
     </div>
   );
 };

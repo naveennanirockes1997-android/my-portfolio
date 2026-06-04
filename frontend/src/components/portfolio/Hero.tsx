@@ -179,8 +179,8 @@ export const Hero = () => {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ y: -5, color: "hsl(var(--primary))" }}
-                className="flex items-center gap-2 text-muted-foreground transition-colors font-semibold"
+                whileHover={{ y: -5 }}
+                className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors font-semibold"
               >
                 <social.icon className="h-6 w-6" />
                 <span className="hidden sm:inline">{social.label}</span>

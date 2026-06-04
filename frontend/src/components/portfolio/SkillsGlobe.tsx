@@ -154,34 +154,33 @@ export const SkillsGlobe = () => {
 
   return (
     <div ref={containerRef} className="w-full h-[500px] rounded-xl overflow-hidden bg-card/50">
-      {isInView && (
-        <Canvas 
-          camera={{ position: [0, 0, 6], fov: 50 }}
-          dpr={1}
-          eventPrefix="client"
-          gl={{ 
-            antialias: false, 
-            alpha: true, 
-            powerPreference: "low-power",
-            failIfMajorPerformanceCaveat: false,
-            stencil: false,
-            depth: true
-          }}
-        >
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1} />
-          <pointLight position={[-10, -10, -5]} color="#8B5CF6" intensity={0.8} />
-          
-          <RotatingGlobe />
-          
-          <OrbitControls 
-            enableZoom={false}
-            enablePan={false}
-            autoRotate
-            autoRotateSpeed={0.5}
-          />
-        </Canvas>
-      )}
+      <Canvas 
+        camera={{ position: [0, 0, 6], fov: 50 }}
+        dpr={1}
+        eventPrefix="client"
+        frameloop={isInView ? "always" : "never"}
+        gl={{ 
+          antialias: false, 
+          alpha: true, 
+          powerPreference: "low-power",
+          failIfMajorPerformanceCaveat: false,
+          stencil: false,
+          depth: true
+        }}
+      >
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[10, 10, 5]} intensity={1} />
+        <pointLight position={[-10, -10, -5]} color="#8B5CF6" intensity={0.8} />
+        
+        <RotatingGlobe />
+        
+        <OrbitControls 
+          enableZoom={false}
+          enablePan={false}
+          autoRotate
+          autoRotateSpeed={0.5}
+        />
+      </Canvas>
     </div>
   );
 };
